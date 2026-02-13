@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import gradio as gr
 
 # LangChain / LangGraph
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
 from langgraph.prebuilt import create_react_agent
@@ -15,8 +15,8 @@ from langgraph.prebuilt import create_react_agent
 # ---------------------------------------------------
 load_dotenv()
 
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
     temperature=0
 )
 
