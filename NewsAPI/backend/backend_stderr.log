@@ -1,0 +1,8 @@
+News fetch error details: {
+  status: 'error',
+  results: {
+    message: 'The provided API key is not valid.',
+    code: 'Unauthorized'
+  }
+}
+Chatbot error details: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.

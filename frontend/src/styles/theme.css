@@ -1,0 +1,10 @@
+:root {
+    --primary: #4f46e5;
+    --secondary: #f59e0b;
+    --background: #f9fafb;
+    --text: #111827;
+}
+
+.theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
