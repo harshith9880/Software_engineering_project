@@ -5,6 +5,8 @@ import CategoryPill from '../components/CategoryPill';
 import NewsGrid from '../components/NewsGrid';
 import { newsApi } from '../api/newsApi';
 import { Sparkles, TrendingUp, Zap, Settings, LayoutDashboard } from 'lucide-react';
+import api from "../services/api.js";
+import NewsCard from "../components/NewsCard.jsx";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -32,8 +34,21 @@ const Home = () => {
         fetchTrending();
     }, []);
 
-    const handleSearch = (query) => {
-        navigate(`/feed?search=${encodeURIComponent(query)}`);
+    const [query, setQuery] = useState("");
+    const [newsData, setNewsData] = useState([]);
+
+    const handleSearch = async () => {
+        try {
+            const res = await api.get("/news/search", {
+                params: { query }
+            });
+
+            console.log("FULL RESPONSE:", res.data);
+
+            setNewsData(res.data.data); // keep this for now
+        } catch (error) {
+            console.error("Search error:", error);
+        }
     };
 
     const handleCategoryClick = (category) => {
@@ -66,7 +81,13 @@ const Home = () => {
                     </p>
 
                     <div className="mb-12">
-                        <SearchBar onSearch={handleSearch} />
+                        <input
+                            type="text"
+                            placeholder="Search topic..."
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                        />
+                        <button onClick={handleSearch}>Search</button>
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-3">
@@ -99,7 +120,7 @@ const Home = () => {
                         </button>
                     </div>
 
-                    <NewsGrid articles={trendingNews.slice(0, 4)} loading={loading} />
+                    <NewsGrid articles={newsData.slice(0, 4)} loading={loading} />
                 </div>
             </section>
 

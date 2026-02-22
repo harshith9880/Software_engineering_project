@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import NewsGrid from '../components/NewsGrid';
-import { newsApi } from '../api/newsApi';
 import CategoryPill from '../components/CategoryPill';
 import SearchBar from '../components/SearchBar';
-import { Filter, UserCheck, Search } from 'lucide-react';
+import { Filter, UserCheck } from 'lucide-react';
+import { newsApi } from '../api/newsApi';
 
 const Feed = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState(searchParams.get('category') || 'All');
+    const [newsData, setNewsData] = useState([]);
 
     const categories = ['All', 'Technology', 'Sports', 'Finance', 'Entertainment', 'Science', 'Health', 'Business'];
 
@@ -24,12 +24,13 @@ const Feed = () => {
             if (query) {
                 response = await newsApi.searchNews(query);
             } else {
-                response = await newsApi.getTopHeadlines(category === 'all' ? '' : category);
+                response = await newsApi.getTopHeadlines(category || 'All');
             }
 
-            setArticles(response.data.articles || []);
+            setNewsData(response.data.data || response.data.articles || []);
         } catch (err) {
             console.error("Failed to fetch news", err);
+            setNewsData([]);
         } finally {
             setLoading(false);
         }
@@ -51,11 +52,13 @@ const Feed = () => {
         setSearchParams(params);
     };
 
-    const handleSearch = (query) => {
-        const params = new URLSearchParams(searchParams);
-        params.set('search', query);
-        params.delete('category'); // Clear category when searching
-        setSearchParams(params);
+    const handleSearch = async (searchQuery) => {
+        if (searchQuery.trim()) {
+            const params = new URLSearchParams(searchParams);
+            params.set('search', searchQuery);
+            params.delete('category');
+            setSearchParams(params);
+        }
     };
 
     return (
@@ -98,7 +101,7 @@ const Feed = () => {
                 </div>
 
                 {/* Results */}
-                <NewsGrid articles={articles} loading={loading} />
+                <NewsGrid articles={newsData} loading={loading} />
             </div>
         </div>
     );
