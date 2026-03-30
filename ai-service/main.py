@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # ---------------------------------------------------
 # 1. ENV & MODEL
@@ -123,7 +123,7 @@ tools = [
     get_location_news,
 ]
 
-agent_executor = create_react_agent(llm, tools)
+agent_executor = create_agent(llm, tools)
 
 
 # ---------------------------------------------------
