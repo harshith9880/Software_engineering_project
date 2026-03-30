@@ -6,6 +6,7 @@ import Article from '../pages/Article';
 import Chatbot from '../pages/Chatbot';
 import Admin from '../pages/Admin';
 import About from '../pages/About';
+import Analytics from '../pages/Analytics';
 
 const AppRoutes = () => {
     return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
             <Route path="/article/:id" element={<Article />} />
             <Route path="/chatbot" element={<Chatbot />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

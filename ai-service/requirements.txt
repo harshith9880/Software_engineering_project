@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+requests
+langchain-google-genai
+langchain-core
+langchain-community
+langgraph
+duckduckgo-search
